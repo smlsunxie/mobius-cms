@@ -13,7 +13,8 @@
     "loopback-datasource-juggler": "^2.7.0",
     "serve-favicon": "^2.0.1",
     "coffee-script": "~1.8.0",
-    "jade": "~1.7.0"
+    "jade": "~1.7.0",
+    "sys": "0.0.1"
   },
   "optionalDependencies": {
     "loopback-explorer": "^1.1.0"
