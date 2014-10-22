@@ -5,6 +5,7 @@ module.exports = (app) ->
     params = {
       module: {
         name: "cms-plugin-sample"
+        tag: "cms-plugin-sample"
       }
     }
 

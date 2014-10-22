@@ -35,6 +35,20 @@ describe "/plugins", ->
         Plugin.should.have.property("module.testApi")
         done()
 
+    it "can access dynamic model", (done) ->
+      Form = app.models.Form
+      Form.should.be.Object
+      done()
+
+    it "can create dynamic model", (done) ->
+      Form = app.models.Form
+      Form.create {name: "testForm"}, (error, newForm) ->
+        newForm.should.be.Object
+
+        Form.find {}, (error, forms) ->
+          (forms.length > 0).should.be.true
+          done()
+
 
     lt.describe.whenCalledRemotely "POST", "/api/plugins/action", {name:"module.testApi"}, ->
 

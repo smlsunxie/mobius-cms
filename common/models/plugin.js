@@ -72,6 +72,9 @@ module.exports = function(Plugin) {
 
 
     fse.copy(module_home+"/"+name+"/dist", "client/modules/"+name, function(error){
+      // Create a open model that doesn't require predefined properties
+      app.models.Form = app.datasources.db.createModel('form');
+
       cb();
     });
 
