@@ -1,4 +1,4 @@
-modules/
+cms_modules/
 client/modules
 node_modules
 npm-debug.log

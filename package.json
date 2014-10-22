@@ -16,7 +16,9 @@
     "jade": "~1.7.0",
     "sys": "0.0.1",
     "bluebird": "~2.3.6",
-    "git-tools": "~0.1.1"
+    "git-tools": "~0.1.1",
+    "fs-extra": "~0.12.0",
+    "gulp": "~3.8.9"
   },
   "optionalDependencies": {
     "loopback-explorer": "^1.1.0"

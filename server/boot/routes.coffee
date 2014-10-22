@@ -1,8 +1,8 @@
 module.exports = (app) ->
   console.log "set router"
   router = app.loopback.Router()
-  router.get "/module_a", (req, res) ->
-    console.log "/module_a touch ~~~~~~~~~~"
+  router.get "/modules", (req, res) ->
+    console.log "/modules touch ~~~~~~~~~~"
     res.render "index"
     return
 

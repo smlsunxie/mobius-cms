@@ -1,43 +1,49 @@
 var sys = require('sys')
 var exec = require('child_process').exec;
 var Repo = require("git-tools");
+var fse = require('fs-extra')
 
 var puts = function(error, stdout, stderr) { sys.puts(stdout) }
 
-var module_home = "client/modules"
+var module_home = "cms_modules"
+
+
 
 
 
 module.exports = function(Plugin) {
-  var mountAction = function(name) {
-    console.log("=== do mountAction ===");
-    Plugin[name] = function(params, cb) {
-      console.log("plugin testApi is run");
-      cb(null, "get msg:"+ params);
-    }
-  }
 
 
   Plugin.install = function(url, name, cb) {
     // console.log("app.models.plugin", app.models.plugin.install);
     console.log("install command:", "git clone "+url+" "+module_home+"/"+name);
 
-    Repo.clone({
-      repo: url ,
-      dir: module_home+"/"+name,
-      bare: true
-    }, function( error, repo ){
+
+    fse.remove(module_home+"/"+name, function(){
+      Repo.clone({
+        repo: url ,
+        dir: module_home+"/"+name,
+      }, function( error, repo ){
+
+        exec("cd "+module_home+"/"+name+" && npm i && bower i && gulp build", function(error, stdout, stderr){
+          console.log(error);
+          console.log(stdout);
+          console.log(stderr);
+
+          // fse.copy(module_home+"/"+name+"/dist")
+
+          var plugin = new Plugin({url: url, name: name})
+
+          Plugin.create(plugin, function(err, newPlugin){
+
+            cb(err, newPlugin);
+          });
+
+        });
+      });
+    })
 
 
-
-      var plugin = new Plugin({url: url, name: name})
-
-      Plugin.create(plugin, function(err, newPlugin){
-          mountAction("module.testApi");
-          cb(err, newPlugin);
-      })
-
-    });
 
   };
 
@@ -50,6 +56,32 @@ module.exports = function(Plugin) {
       cb(error, result)
     })
   };
+
+
+  Plugin.mount = function(name, cb) {
+
+    var mountAction = function(name) {
+      console.log("=== do mountAction ===");
+      Plugin[name] = function(params, cb) {
+        console.log("plugin testApi is run");
+        cb(null, "get msg:"+ params);
+      }
+    }
+
+    mountAction("module.testApi");
+
+
+    fse.copy(module_home+"/"+name+"/dist", "client/modules/"+name, function(error){
+      cb();
+    });
+
+
+
+
+
+
+  };
+
 
 
 
