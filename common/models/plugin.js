@@ -1,5 +1,7 @@
 var sys = require('sys')
 var exec = require('child_process').exec;
+var Repo = require("git-tools");
+
 var puts = function(error, stdout, stderr) { sys.puts(stdout) }
 
 var module_home = "client/modules"
@@ -20,15 +22,23 @@ module.exports = function(Plugin) {
     // console.log("app.models.plugin", app.models.plugin.install);
     console.log("install command:", "git clone "+url+" "+module_home+"/"+name);
 
-    // exec("git clone "+url+" "+module_home+"/"+name, puts);
+    Repo.clone({
+      repo: url ,
+      dir: module_home+"/"+name,
+      bare: true
+    }, function( error, repo ){
 
-    var plugin = new Plugin({url: url, name: name})
 
 
-    Plugin.create(plugin, function(err, newPlugin){
-        mountAction("module.testApi");
-        cb(err, newPlugin);
-    })
+      var plugin = new Plugin({url: url, name: name})
+
+      Plugin.create(plugin, function(err, newPlugin){
+          mountAction("module.testApi");
+          cb(err, newPlugin);
+      })
+
+    });
+
   };
 
 
@@ -48,8 +58,8 @@ module.exports = function(Plugin) {
       {arg: "url", type: "string", required: true},
       {arg: "name", type: "string", required: true}
     ],
-    returns: {arg: "result", type: "object"},
-    http: {verb: "get"}
+    returns: {arg: "result", type: "object"}
+    // http: {verb: "get"}
   });
 
   Plugin.remoteMethod("action", {

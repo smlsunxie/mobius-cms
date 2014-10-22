@@ -33,7 +33,8 @@ describe "/plugins", ->
         assert.equal @res.statusCode, 200
         @res.body.should.have.property("result")
 
-    lt.describe.whenCalledRemotely "GET", "/api/plugins/install?url=webUrl&name=testInstallPlugin", ->
+    lt.describe.whenCalledRemotely "POST", "/api/plugins/install",
+    { url:"git@github.com:smlsunxie/plugin-react-dateGridTool.git", name:"plugin-react-dateGridTool"}, ->
 
       lt.it.shouldBeAllowed()
       it "should have statusCode 200", ->

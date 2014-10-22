@@ -15,7 +15,8 @@
     "coffee-script": "~1.8.0",
     "jade": "~1.7.0",
     "sys": "0.0.1",
-    "bluebird": "~2.3.6"
+    "bluebird": "~2.3.6",
+    "git-tools": "~0.1.1"
   },
   "optionalDependencies": {
     "loopback-explorer": "^1.1.0"
