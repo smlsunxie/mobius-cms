@@ -23,11 +23,11 @@ describe "/plugins", ->
 
     it "plugin has mount customize function", (done) ->
 
-      Plugin.should.have.property("testApi")
+      Plugin.should.have.property("module.testApi")
       done()
 
 
-    lt.describe.whenCalledRemotely "GET", "/api/plugins/testApi?msg=hello", ->
+    lt.describe.whenCalledRemotely "POST", "/api/plugins/action", {name:"module.testApi"}, ->
 
       it "should have statusCode 200", ->
         assert.equal @res.statusCode, 200

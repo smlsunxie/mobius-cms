@@ -7,22 +7,12 @@ var module_home = "client/modules"
 
 
 module.exports = function(Plugin) {
-  var mountAction = function() {
+  var mountAction = function(name) {
     console.log("=== do mountAction ===");
-    Plugin.testApi = function(msg, cb) {
-      console.log("testApi is run");
-      cb(null, "get msg:"+ msg);
+    Plugin[name] = function(params, cb) {
+      console.log("plugin testApi is run");
+      cb(null, "get msg:"+ params);
     }
-
-
-    Plugin.remoteMethod("testApi", {
-      accepts: [
-        {arg: "msg", type: "string", required: true}
-      ],
-      returns: {arg: "result", type: "string"},
-      http: {verb: "get"}
-    });
-
   }
 
 
@@ -36,8 +26,18 @@ module.exports = function(Plugin) {
 
 
     Plugin.create(plugin, function(err, newPlugin){
-        mountAction();
+        mountAction("module.testApi");
         cb(err, newPlugin);
+    })
+  };
+
+
+  Plugin.action = function(name, params, cb) {
+    console.log("=== call Plugin.action ===");
+    console.log("Plugin.action name:", name);
+
+    Plugin[name](params, function(error, result){
+      cb(error, result)
     })
   };
 
@@ -51,5 +51,14 @@ module.exports = function(Plugin) {
     returns: {arg: "result", type: "object"},
     http: {verb: "get"}
   });
+
+  Plugin.remoteMethod("action", {
+    accepts: [
+      {arg: "name", type: "string", required: true},
+      {arg: "params", type: "object"}
+    ],
+    returns: {arg: "result", type: "object"}
+  });
+
 
 };
