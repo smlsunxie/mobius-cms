@@ -1,15 +1,18 @@
 var sys = require('sys')
 var exec = require('child_process').exec;
-puts = function(error, stdout, stderr) { sys.puts(stdout) }
+var puts = function(error, stdout, stderr) { sys.puts(stdout) }
 
 var module_home = "client/modules"
 
 
 
-module.exports = function(Plugins) {
-  Plugins.install = function(url, name, cb) {
-    console.log("install command", "git clone "+url+" "+module_home+"/"+name);
-    exec("git clone "+url+" "+module_home+"/"+name, puts);
+module.exports = function(Plugin) {
+  Plugin.install = function(url, name, cb) {
+
+    console.log("app.models.plugin", app.models.plugin.install);
+    console.log("install command:", "git clone "+url+" "+module_home+"/"+name);
+
+    // exec("git clone "+url+" "+module_home+"/"+name, puts);
 
 
 
@@ -18,7 +21,7 @@ module.exports = function(Plugins) {
     cb(null, "install success!");
   };
 
-  Plugins.remoteMethod("install", {
+  Plugin.remoteMethod("install", {
     accepts: [
       {arg: "url", type: "string", required: true},
       {arg: "name", type: "string", required: true}
