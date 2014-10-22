@@ -1,5 +1,5 @@
 require "coffee-script/register"
-loopback = require("loopback")
+global.loopback = require("loopback")
 boot = require("loopback-boot")
 global.app = module.exports = loopback()
 
