@@ -5,7 +5,7 @@ html
     meta(name='description', content='')
     meta(name='viewport', content='width=device-width')
     // Place favicon.ico and apple-touch-icon.png in the root directory
-    link(rel='stylesheet', href='modules/cms-plugin-sample/styles/main.css')
+    link(rel='stylesheet', href='modules/#{params.module.name}/styles/main.css')
 
   body
 
@@ -39,4 +39,4 @@ html
             | Modernizr is an open-source JavaScript library that helps you build the next generation of HTML5 and CSS3-powered websites.
       div.footer
         p ♥ from the Yeoman team
-    script(src='modules/cms-plugin-sample/scripts/app.js')
+    script(src='modules/#{params.module.name}/scripts/app.js')
