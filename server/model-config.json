@@ -24,7 +24,7 @@
     "dataSource": "db",
     "public": false
   },
-  "plugins": {
+  "plugin": {
     "dataSource": "db",
     "public": true
   }

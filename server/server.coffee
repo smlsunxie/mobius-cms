@@ -1,7 +1,7 @@
 require "coffee-script/register"
 loopback = require("loopback")
 boot = require("loopback-boot")
-app = module.exports = loopback()
+global.app = module.exports = loopback()
 
 # Set up the /favicon.ico
 app.use loopback.favicon()

@@ -1,3 +1,4 @@
 modules/
-client/modules/module_a
+client/modules
 node_modules
+npm-debug.log

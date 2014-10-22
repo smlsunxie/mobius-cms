@@ -1,0 +1,5 @@
+-t 500000
+--compilers coffee:coffee-script/register
+--require chai
+--reporter spec
+--recursive test/init/init.coffee
