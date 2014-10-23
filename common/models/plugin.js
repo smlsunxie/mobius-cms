@@ -35,9 +35,9 @@ module.exports = function(Plugin) {
           var plugin = new Plugin({url: url, name: name})
 
           Plugin.create(plugin, function(err, newPlugin){
-
             cb(err, newPlugin);
           });
+
 
         });
       });
@@ -73,7 +73,12 @@ module.exports = function(Plugin) {
 
     fse.copy(module_home+"/"+name+"/dist", "client/modules/"+name, function(error){
       // Create a open model that doesn't require predefined properties
-      app.models.Form = app.datasources.db.createModel('form');
+      var models = require("../../client/modules/"+name+"/config/model.coffee");
+
+      models.forEach(function(model){
+        app.models[model.name] = app.datasources.db.createModel(model.name, model.properties);
+      });
+
 
       cb();
     });
