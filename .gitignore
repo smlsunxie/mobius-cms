@@ -1,4 +1,10 @@
 cms_modules/
-client/modules
+
 node_modules
 npm-debug.log
+
+app/bower_components
+
+client
+
+.sass-cache
