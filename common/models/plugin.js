@@ -25,12 +25,6 @@ module.exports = function(Plugin) {
         dir: module_home+"/"+name,
       }, function( error, repo ){
 
-        exec("cd "+module_home+"/"+name+" && npm i && bower i && gulp build", function(error, stdout, stderr){
-          console.log(error);
-          console.log(stdout);
-          console.log(stderr);
-
-          // fse.copy(module_home+"/"+name+"/dist")
 
           var plugin = new Plugin({url: url, name: name})
 
@@ -39,7 +33,6 @@ module.exports = function(Plugin) {
           });
 
 
-        });
       });
     })
 
@@ -61,7 +54,7 @@ module.exports = function(Plugin) {
   Plugin.mount = function(moduleName, cb) {
 
     var mountActions = function(moduleName) {
-      var actions = require("../../client/modules/"+moduleName+"/config/actions.coffee");
+      var actions = require("../../cms_modules/"+moduleName+"/config/actions.coffee");
 
       Plugin.modules[moduleName] = {}
       Plugin.modules[moduleName].app = app
@@ -73,7 +66,7 @@ module.exports = function(Plugin) {
     }
 
     var mountModels = function(moduleName) {
-      var models = require("../../client/modules/"+moduleName+"/config/models.coffee");
+      var models = require("../../cms_modules/"+moduleName+"/config/models.coffee");
 
       models.forEach(function(model){
         app.models[model.name] = app.datasources.db.createModel(model.name, model.properties);

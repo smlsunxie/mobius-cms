@@ -8,12 +8,6 @@ describe "/plugins", ->
 
 
   describe 'install plugin', ->
-    # lt.describe.whenCalledRemotely "POST", "/api/plugins/install",
-    # { url:"git@github.com:smlsunxie/cms-plugin-sample.git", name:"plugin-react-dateGridTool"}, ->
-    #
-    #   lt.it.shouldBeAllowed()
-    #   it "should have statusCode 200", ->
-    #     assert.equal @res.statusCode, 200
 
     it "execute install", (done) ->
 
@@ -27,7 +21,7 @@ describe "/plugins", ->
         (plugins.length > 0).should.be.true
         done()
 
-  describe.only 'mount plugin', ->
+  describe 'mount plugin', ->
 
     it "execute mount", (done) ->
       app.models.plugin.mount "cms-plugin-sample", (error, result) ->
