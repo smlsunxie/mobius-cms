@@ -32,7 +32,8 @@ describe "/plugins", ->
     it "execute mount", (done) ->
       app.models.plugin.mount "cms-plugin-sample", (error, result) ->
 
-        Plugin.should.have.property("module.testApi")
+        Plugin.modules.should.have.property("cms-plugin-sample")
+        Plugin.modules["cms-plugin-sample"].should.have.property("testAction")
         done()
 
     it "can access dynamic model", (done) ->
@@ -50,7 +51,10 @@ describe "/plugins", ->
           done()
 
 
-    lt.describe.whenCalledRemotely "POST", "/api/plugins/action", {name:"module.testApi"}, ->
+    lt.describe.whenCalledRemotely "POST", "/api/plugins/action", {
+      moduleName:"cms-plugin-sample"
+      actionName:"testAction"
+    }, ->
 
       it "should have statusCode 200", ->
         assert.equal @res.statusCode, 200

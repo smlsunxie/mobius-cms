@@ -12,7 +12,7 @@ var module_home = "cms_modules"
 
 
 module.exports = function(Plugin) {
-
+  Plugin.modules = {};
 
   Plugin.install = function(url, name, cb) {
     // console.log("app.models.plugin", app.models.plugin.install);
@@ -48,50 +48,48 @@ module.exports = function(Plugin) {
   };
 
 
-  Plugin.action = function(name, params, cb) {
+  Plugin.action = function(moduleName, actioName, params, cb) {
     console.log("=== call Plugin.action ===");
-    console.log("Plugin.action name:", name);
+    console.log("action info :", moduleName, actioName);
 
-    Plugin[name](params, function(error, result){
+    Plugin.modules[moduleName][actioName](params, function(error, result){
       cb(error, result)
     })
   };
 
 
-  Plugin.mount = function(name, cb) {
+  Plugin.mount = function(moduleName, cb) {
 
-    var mountAction = function(name) {
-      console.log("=== do mountAction ===");
-      Plugin[name] = function(params, cb) {
-        console.log("plugin testApi is run");
-        cb(null, "get msg:"+ params);
-      }
+    var mountActions = function(moduleName) {
+      var actions = require("../../client/modules/"+moduleName+"/config/actions.coffee");
+
+      Plugin.modules[moduleName] = {}
+      Plugin.modules[moduleName].app = app
+
+      actions.forEach(function(action){
+        Plugin.modules[moduleName][action.name] = action.execution
+      });
+
     }
 
-    mountAction("module.testApi");
-
-
-    fse.copy(module_home+"/"+name+"/dist", "client/modules/"+name, function(error){
-      // Create a open model that doesn't require predefined properties
-      var models = require("../../client/modules/"+name+"/config/model.coffee");
+    var mountModels = function(moduleName) {
+      var models = require("../../client/modules/"+moduleName+"/config/models.coffee");
 
       models.forEach(function(model){
         app.models[model.name] = app.datasources.db.createModel(model.name, model.properties);
       });
+    }
 
 
-      cb();
+    fse.copy(module_home+"/"+moduleName+"/dist", "client/modules/"+moduleName, function(error){
+      // Create a open model that doesn't require predefined properties
+      mountActions(moduleName);
+      mountModels(moduleName);
+
+      cb(null, {result: "ok"});
     });
 
-
-
-
-
-
   };
-
-
-
 
   Plugin.remoteMethod("install", {
     accepts: [
@@ -104,7 +102,8 @@ module.exports = function(Plugin) {
 
   Plugin.remoteMethod("action", {
     accepts: [
-      {arg: "name", type: "string", required: true},
+      {arg: "moduleName", type: "string", required: true},
+      {arg: "actionName", type: "string", required: true},
       {arg: "params", type: "object"}
     ],
     returns: {arg: "result", type: "object"}
