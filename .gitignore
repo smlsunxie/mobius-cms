@@ -9,4 +9,4 @@ client
 
 .sass-cache
 
-app/script/**/*.js
+app/scripts

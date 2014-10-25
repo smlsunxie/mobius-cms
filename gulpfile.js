@@ -31,8 +31,8 @@ gulp.task('styles', function () {
 // CoffeeScript
 gulp.task('coffee', function () {
     return gulp.src(
-            ['app/scripts/**/*.coffee', '!app/scripts/**/*.js'],
-            {base: 'app/scripts'}
+            ['app/coffee/**/*.coffee', '!app/coffee/**/*.js'],
+            {base: 'app/coffee'}
         )
         .pipe(
             $.coffee({ bare: true }).on('error', $.util.log)
