@@ -27,9 +27,20 @@ gulp.task('styles', function () {
 
 
 
+// CoffeeScript
+gulp.task('cjsx', function () {
+    return gulp.src(
+            ['app/src/**/*.cjsx'],
+            {base: 'app/src'}
+        )
+        .pipe(
+            $.cjsx({ bare: true }).on('error', $.util.log)
+        )
+        .pipe(gulp.dest('app/scripts'));
+});
 
 // CoffeeScript
-gulp.task('coffee', function () {
+gulp.task('coffee', ["cjsx"], function () {
     return gulp.src(
             ['app/src/**/*.coffee', 'app/src/**/*.js'],
             {base: 'app/src'}

@@ -50,6 +50,7 @@
     "gulp-webserver": "^0.8.3",
     "jest": "~0.1.37",
     "reactify": "~0.14.0",
-    "coffee-reactify": "~1.0.3"
+    "coffee-reactify": "~1.0.3",
+    "gulp-cjsx": "~1.0.2"
   }
 }
