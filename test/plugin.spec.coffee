@@ -1,11 +1,6 @@
-assert = require('chai').assert
-should = require('chai').should()
-lt = require("loopback-testing")
-Plugin = app.models.plugin
-
 
 describe "/plugins", ->
-
+  Plugin = app.models.plugin
 
   describe 'install plugin', ->
 

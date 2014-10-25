@@ -27,5 +27,9 @@
   "plugin": {
     "dataSource": "db",
     "public": true
+  },
+  "route": {
+    "dataSource": "db",
+    "public": true
   }
 }

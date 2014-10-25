@@ -1,0 +1,33 @@
+{
+  "name": "route",
+  "base": "PersistedModel",
+  "properties": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "path": {
+      "type": "string",
+      "required": true
+    }
+  },
+  "validations": [],
+  "relations": {
+    "routes": {
+      "type": "hasMany",
+      "model": "route",
+      "foreignKey": ""
+    },
+    "plugin": {
+      "type": "belongsTo",
+      "model": "plugin",
+      "foreignKey": ""
+    }
+  },
+  "acls": [],
+  "methods": []
+}
