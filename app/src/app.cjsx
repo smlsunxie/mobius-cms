@@ -30,7 +30,7 @@ App = React.createClass(
 
 routes =
   <Routes location="history">
-    <Route name="app" path="/index" handler={App}>
+    <Route name="app" path="/ui" handler={App}>
       <Route name="todo" handler={Todo.app}/>
       <DefaultRoute handler={Home}/>
     </Route>
