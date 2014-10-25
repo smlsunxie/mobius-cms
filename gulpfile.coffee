@@ -34,7 +34,7 @@ gulp.task "coffee", ->
 
 
 # Scripts
-gulp.task "scripts", ->
+gulp.task "scripts", ["cjsx", "coffee"], ->
   gulp.src("app/scripts/app.js").pipe($.browserify(
     insertGlobals: true
     transform: ["reactify"]
@@ -78,8 +78,6 @@ gulp.task "clean", (cb) ->
 # Bundle
 gulp.task "bundle", [
   "styles"
-  "cjsx"
-  "coffee"
   "scripts"
   "bower"
 ], ->
@@ -142,14 +140,12 @@ gulp.task "watch", ["default"], ->
   ]
 
   gulp.watch "app/src/**/*.cjsx", [
-    "cjsx"
     "scripts"
     "jest"
   ]
 
   # Watch .coffeescript files
   gulp.watch "app/src/**/*.coffee", [
-    "coffee"
     "scripts"
     "jest"
   ]
