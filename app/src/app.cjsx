@@ -1,6 +1,6 @@
 React = window.React = require("react")
-Todo = require("./ui/Todo")
-Home = require("./ui/Home")
+Todo = require("./components/Todo")
+Home = require("./components/Home")
 mountNode = document.getElementById("app")
 
 
