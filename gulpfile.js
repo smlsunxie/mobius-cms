@@ -102,7 +102,7 @@ gulp.task('clean', function (cb) {
 
 
 // Bundle
-gulp.task('bundle', ['styles', 'scripts', 'bower'], function(){
+gulp.task('bundle', ['styles', 'coffee', 'scripts', 'bower'], function(){
     return gulp.src('./app/*.html')
                .pipe($.useref.assets())
                .pipe($.useref.restore())
@@ -159,11 +159,11 @@ gulp.task('watch', ['html', 'bundle', 'serve'], function () {
 
 
     // Watch .coffeescript files
-    gulp.watch('app/scripts/**/*.coffee', ['coffee', 'scripts', 'jest' ]);
+    gulp.watch('app/scripts/**/*.coffee', ['coffee', 'scripts', 'jest']);
 
 
     // Watch .js files
-    gulp.watch('app/scripts/**/*.js', ['scripts', 'jest' ]);
+    // gulp.watch('app/scripts/**/*.js', ['scripts', 'jest' ]);
 
     // Watch image files
     gulp.watch('app/images/**/*', ['images']);

@@ -8,3 +8,5 @@ app/bower_components
 client
 
 .sass-cache
+
+app/script/**/*.js

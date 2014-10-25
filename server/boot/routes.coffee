@@ -1,17 +1,8 @@
 module.exports = (app) ->
-  console.log "set router"
+
   router = app.loopback.Router()
-  router.get "/modules", (req, res) ->
-    params = {
-      module: {
-        name: "cms-plugin-sample"
-        tag: "cms-plugin-sample"
-      }
-    }
-
-    res.render "index", {params: params}
-
-
+  router.get "/index", (req, res) ->
+    res.render "index"
 
   app.use router
   return
