@@ -16,7 +16,7 @@ gulp.task "styles", ->
   )).pipe($.autoprefixer("last 1 version")).pipe(gulp.dest(distPath + "/styles")).pipe $.size()
 
 
-# CoffeeScript
+# cjsx
 gulp.task "cjsx", ->
   gulp.src(["app/src/**/*.cjsx"],
     base: "app/src"
@@ -24,7 +24,7 @@ gulp.task "cjsx", ->
 
 
 # CoffeeScript
-gulp.task "coffee", ["cjsx"], ->
+gulp.task "coffee", ->
   gulp.src([
     "app/src/**/*.coffee"
     "app/src/**/*.js"
@@ -78,6 +78,7 @@ gulp.task "clean", (cb) ->
 # Bundle
 gulp.task "bundle", [
   "styles"
+  "cjsx"
   "coffee"
   "scripts"
   "bower"
@@ -138,6 +139,12 @@ gulp.task "watch", ["default"], ->
   gulp.watch "app/template/**/*.jade", [
     "jade"
     "html"
+  ]
+
+  gulp.watch "app/src/**/*.cjsx", [
+    "cjsx"
+    "scripts"
+    "jest"
   ]
 
   # Watch .coffeescript files
