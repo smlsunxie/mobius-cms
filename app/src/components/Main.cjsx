@@ -2,7 +2,8 @@ React = window.React = require("react")
 Todo = require("./Todo")
 Home = require("./Home")
 
-# RouteStore = require('../stores/RouteStore');
+RouteStore = require('../stores/RouteStore');
+console.log "RouteStore", RouteStore
 
 Router = require('react-router')
 Route = Router.Route
@@ -12,8 +13,8 @@ DefaultRoute = Router.DefaultRoute
 Link = Router.Link
 Main = {}
 Main.app = React.createClass(
-  # getInitialState: ->
-  #   getRouteState()
+  getInitialState: ->
+    data: RouteStore.getAll()
 
   render: ->
     <div>
