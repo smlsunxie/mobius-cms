@@ -31,8 +31,8 @@ gulp.task('styles', function () {
 // CoffeeScript
 gulp.task('coffee', function () {
     return gulp.src(
-            ['app/coffee/**/*.coffee', '!app/coffee/**/*.js'],
-            {base: 'app/coffee'}
+            ['app/src/**/*.coffee', 'app/src/**/*.js'],
+            {base: 'app/src'}
         )
         .pipe(
             $.coffee({ bare: true }).on('error', $.util.log)
@@ -117,7 +117,7 @@ gulp.task('build', ['html', 'bundle', 'images']);
 gulp.task('default', ['clean', 'build', 'jest' ]);
 
 // Webserver
-gulp.task('serve', function () {
+gulp.task('serve', ["watch"], function () {
     gulp.src(distPath+'')
         .pipe($.webserver({
             livereload: true,
@@ -139,7 +139,7 @@ gulp.task('json', function() {
 
 
 // Watch
-gulp.task('watch', ['html', 'bundle', 'serve'], function () {
+gulp.task('watch', ['default'], function () {
 
     // Watch .json files
     gulp.watch('app/scripts/**/*.json', ['json']);
@@ -159,11 +159,11 @@ gulp.task('watch', ['html', 'bundle', 'serve'], function () {
 
 
     // Watch .coffeescript files
-    gulp.watch('app/scripts/**/*.coffee', ['coffee', 'scripts', 'jest']);
+    gulp.watch('app/src/**/*.coffee', ['coffee', 'scripts', 'jest']);
 
 
     // Watch .js files
-    // gulp.watch('app/scripts/**/*.js', ['scripts', 'jest' ]);
+    gulp.watch('app/src/**/*.js', ['scripts', 'jest' ]);
 
     // Watch image files
     gulp.watch('app/images/**/*', ['images']);
