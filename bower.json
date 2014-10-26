@@ -6,5 +6,14 @@
     "react": "^0.11.2",
     "bootstrap-sass-official": "^3.2.0",
     "modernizr": "^2.8.3"
-  }
+  },
+  "appPath": "client/app",
+  "testPath": "client/app/test/spec",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "**/bower_components",
+    "test",
+    "tests"
+  ]
 }

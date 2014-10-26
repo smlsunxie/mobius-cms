@@ -2,10 +2,12 @@
 gulp = require("gulp")
 del = require("del")
 path = require("path")
-distPath = "client"
-
+distPath = "client/app"
+boot = require('loopback-boot')
+buildClientBundle = require('./client/lbclient/build');
 # Load plugins
 $ = require("gulp-load-plugins")()
+
 
 # Styles
 gulp.task "styles", ->
@@ -18,7 +20,7 @@ gulp.task "styles", ->
 
 # cjsx
 gulp.task "cjsx", ->
-  gulp.src(["app/src/**/*.cjsx"],
+  gulp.src(["app/src/**/*.cjsx", '!app/src/**/*.js'],
     base: "app/src"
   ).pipe($.cjsx(bare: true).on("error", $.util.log)).pipe gulp.dest("app/scripts")
 
@@ -27,18 +29,41 @@ gulp.task "cjsx", ->
 gulp.task "coffee", ->
   gulp.src([
     "app/src/**/*.coffee"
-    "app/src/**/*.js"
+    "!app/src/**/*.js"
   ],
     base: "app/src"
   ).pipe($.coffee(bare: true).on("error", $.util.log)).pipe gulp.dest("app/scripts")
 
 
+
 # Scripts
 gulp.task "scripts", ["cjsx", "coffee"], ->
-  gulp.src("app/scripts/app.js").pipe($.browserify(
+
+  gulp.src("app/scripts/app.js")
+  .pipe($.browserify(
     insertGlobals: true
     transform: ["reactify"]
-  )).pipe(gulp.dest(distPath + "/scripts")).pipe $.size()
+  ))
+  # .on('prebundle', (bundle)->
+  #   bundle.require("../../client/lbclient/lbclient.js", { expose: 'lbclient' })
+  #   boot.compileToBrowserify({
+  #     appRootDir: distPath + "/lbclient",
+  #     env: "development"
+  #   }, bundle)
+  # )
+  .pipe(gulp.dest(distPath + "/scripts")).pipe $.size()
+
+  gulp.src('app/src/**/*.js')
+  .pipe(gulp.dest(distPath + "/scripts"));
+
+
+gulp.task "lbclient", ->
+  buildClientBundle(process.env.NODE_ENV || 'development', (error)->
+    console.log "error", error
+  );
+
+
+
 
 gulp.task "jade", ->
   gulp.src("app/template/*.jade").pipe($.jade(pretty: true)).pipe gulp.dest(distPath + "")
@@ -79,6 +104,7 @@ gulp.task "clean", (cb) ->
 gulp.task "bundle", [
   "styles"
   "scripts"
+  "lbclient"
   "bower"
 ], ->
   gulp.src("./app/*.html").pipe($.useref.assets()).pipe($.useref.restore()).pipe($.useref()).pipe gulp.dest(distPath + "")
@@ -158,4 +184,16 @@ gulp.task "watch", ["default"], ->
 
   # Watch image files
   gulp.watch "app/images/**/*", ["images"]
+
+
+  # Watch lbclient files
+  gulp.watch [
+    "client/lbclient/models/*"
+    "client/lbclient/app*"
+    "client/lbclient/datasources*"
+    "client/lbclient/models*"
+    "client/lbclient/build.js"
+  ], ["lbclient"]
+
+
   return

@@ -3,7 +3,6 @@ Todo = require("./Todo")
 Home = require("./Home")
 
 RouteStore = require('../stores/RouteStore');
-console.log "RouteStore", RouteStore
 
 Router = require('react-router')
 Route = Router.Route

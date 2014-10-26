@@ -3,10 +3,14 @@ cms_modules/
 node_modules
 npm-debug.log
 
-app/bower_components
+bower_components
 
-client
+
+client/modules
+client/app
+
 
 .sass-cache
 
 app/scripts
+.tmp

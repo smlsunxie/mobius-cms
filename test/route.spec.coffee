@@ -1,6 +1,6 @@
 describe "route", ->
-  Plugin = app.models.plugin
-  Route = app.models.route
+  Plugin = app.models.Plugin
+  Route = app.models.Route
 
   describe 'boot has route with plugin', ->
 
@@ -14,7 +14,7 @@ describe "route", ->
 
   describe  'boot has route with plugin by rest', ->
 
-  lt.describe.whenCalledRemotely "get", "/api/routes?filter[include]=plugin", ->
+  lt.describe.whenCalledRemotely "get", "/api/Routes?filter[include]=plugin", ->
 
     it "should have statusCode 200", ->
       assert.equal @res.statusCode, 200

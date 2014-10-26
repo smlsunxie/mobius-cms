@@ -1,9 +1,9 @@
 {
   "_meta": {
-    "sources": [
-      "../common/models",
-      "./models"
-    ]
+    "sources": ["../common/models"]
+  },
+  "Todo": {
+    "dataSource": "db"
   },
   "User": {
     "dataSource": "db"
@@ -24,12 +24,13 @@
     "dataSource": "db",
     "public": false
   },
-  "plugin": {
+  "Plugin": {
     "dataSource": "db",
     "public": true
   },
-  "route": {
+  "Route": {
     "dataSource": "db",
     "public": true
   }
+
 }

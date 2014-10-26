@@ -4,10 +4,11 @@ html
     title mobius cms
     meta(name='description', content='')
     meta(name='viewport', content='width=device-width')
-    link(rel='stylesheet', href='/styles/main.css')
+    link(rel='stylesheet', href='/app/styles/main.css')
 
   body
 
     div.container#app
-
-    script(src='/scripts/app.js')
+    script(src='/lbclient/browser.bundle.js')
+    script(src='/app/scripts/lbclient.js')
+    script(src='/app/scripts/app.js')
