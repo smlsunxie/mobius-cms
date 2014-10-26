@@ -24,11 +24,11 @@
     "dataSource": "db",
     "public": false
   },
-  "plugin": {
+  "Plugin": {
     "dataSource": "db",
     "public": true
   },
-  "route": {
+  "Route": {
     "dataSource": "db",
     "public": true
   }

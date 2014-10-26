@@ -1,12 +1,12 @@
 
 describe "/plugins", ->
-  Plugin = app.models.plugin
+  Plugin = app.models.Plugin
 
   describe 'install plugin', ->
 
     it "execute install", (done) ->
 
-      app.models.plugin.install "git@github.com:smlsunxie/cms-plugin-sample.git", "cms-plugin-sample", (error, newPlugin) ->
+      app.models.Plugin.install "git@github.com:smlsunxie/cms-plugin-sample.git", "cms-plugin-sample", (error, newPlugin) ->
         newPlugin.should.be.Object
         done();
 
@@ -19,7 +19,7 @@ describe "/plugins", ->
   describe 'mount plugin', ->
 
     it "execute mount", (done) ->
-      app.models.plugin.mount "cms-plugin-sample", (error, result) ->
+      app.models.Plugin.mount "cms-plugin-sample", (error, result) ->
 
         Plugin.modules.should.have.property("cms-plugin-sample")
         Plugin.modules["cms-plugin-sample"].should.have.property("testAction")

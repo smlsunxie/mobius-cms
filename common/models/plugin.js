@@ -15,7 +15,7 @@ module.exports = function(Plugin) {
   Plugin.modules = {};
 
   Plugin.install = function(url, name, cb) {
-    // console.log("app.models.plugin", app.models.plugin.install);
+    // console.log("app.models.Plugin", app.models.Plugin.install);
     console.log("install command:", "git clone "+url+" "+module_home+"/"+name);
 
 

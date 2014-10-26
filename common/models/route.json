@@ -1,5 +1,5 @@
 {
-  "name": "route",
+  "name": "Route",
   "base": "PersistedModel",
   "properties": {
     "name": {
@@ -19,12 +19,12 @@
   "relations": {
     "routes": {
       "type": "hasMany",
-      "model": "route",
+      "model": "Route",
       "foreignKey": ""
     },
     "plugin": {
       "type": "belongsTo",
-      "model": "plugin",
+      "model": "Plugin",
       "foreignKey": ""
     }
   },

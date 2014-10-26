@@ -10,5 +10,8 @@
   },
   "user": {
     "dataSource": "remote"
+  },
+  "route": {
+    "dataSource": "remote"
   }
 }
