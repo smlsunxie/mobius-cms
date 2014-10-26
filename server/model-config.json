@@ -1,9 +1,9 @@
 {
   "_meta": {
-    "sources": [
-      "../common/models",
-      "./models"
-    ]
+    "sources": ["../common/models"]
+  },
+  "Todo": {
+    "dataSource": "db"
   },
   "User": {
     "dataSource": "db"
@@ -32,4 +32,5 @@
     "dataSource": "db",
     "public": true
   }
+
 }

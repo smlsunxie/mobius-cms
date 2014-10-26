@@ -1,0 +1,14 @@
+{
+  "_meta": {
+    "sources": ["../../common/models", "./models"]
+  },
+  "Todo": {
+    "dataSource": "remote"
+  },
+  "LocalTodo": {
+    "dataSource": "local"
+  },
+  "user": {
+    "dataSource": "remote"
+  }
+}

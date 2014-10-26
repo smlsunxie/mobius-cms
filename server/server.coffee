@@ -3,29 +3,26 @@ global.loopback = require("loopback")
 boot = require("loopback-boot")
 global.app = module.exports = loopback()
 
-# Set up the /favicon.ico
-app.use loopback.favicon()
-
-# request pre-processing middleware
+# middleware
 app.use loopback.compress()
 
-# -- Add your pre-processing middleware here --
+# it's important to register the livereload middleware
+# after any response-processing middleware like compress,
+# but before any middleware serving actual content
+livereload = app.get("livereload")
+app.use require("connect-livereload")(port: livereload)  if livereload
 
 # boot scripts mount components like REST API
 boot app, __dirname
 
-# -- Mount static files here--
+# Mount static files like ngapp
 # All static middleware should be registered at the end, as all requests
 # passing the static middleware are hitting the file system
-# Example:
+# app.use loopback.static(path.dirname(app.get("indexFile")))
 path = require("path")
 app.use loopback.static(path.resolve(__dirname, "../client"))
 app.set "views", path.join(__dirname, "views")
 app.set "view engine", "jade"
-
-# app.engine('html', require('ejs').renderFile);
-# app.engine('.html', require('jade').__express);
-# app.set('json spaces', 2); //pretty print json responses
 
 # Requests that get this far won't be handled
 # by any middleware. Convert them into a 404 error
@@ -34,6 +31,8 @@ app.use loopback.urlNotFound()
 
 # The ultimate error handler.
 app.use loopback.errorHandler()
+
+# optionally start the app
 app.start = ->
 
   # start the web server
@@ -43,6 +42,4 @@ app.start = ->
     return
 
 
-
-# start the server if `$ node server.js`
 app.start()  if require.main is module

@@ -2,8 +2,8 @@
 gulp = require("gulp")
 del = require("del")
 path = require("path")
-distPath = "client"
-
+distPath = "client/app"
+boot = require('loopback-boot')
 # Load plugins
 $ = require("gulp-load-plugins")()
 
@@ -18,7 +18,7 @@ gulp.task "styles", ->
 
 # cjsx
 gulp.task "cjsx", ->
-  gulp.src(["app/src/**/*.cjsx"],
+  gulp.src(["app/src/**/*.cjsx", '!app/src/**/*.js'],
     base: "app/src"
   ).pipe($.cjsx(bare: true).on("error", $.util.log)).pipe gulp.dest("app/scripts")
 
@@ -27,18 +27,34 @@ gulp.task "cjsx", ->
 gulp.task "coffee", ->
   gulp.src([
     "app/src/**/*.coffee"
-    "app/src/**/*.js"
+    "!app/src/**/*.js"
   ],
     base: "app/src"
   ).pipe($.coffee(bare: true).on("error", $.util.log)).pipe gulp.dest("app/scripts")
 
 
+
 # Scripts
 gulp.task "scripts", ["cjsx", "coffee"], ->
-  gulp.src("app/scripts/app.js").pipe($.browserify(
+
+  gulp.src("app/scripts/app.js")
+  .pipe($.browserify(
     insertGlobals: true
     transform: ["reactify"]
-  )).pipe(gulp.dest(distPath + "/scripts")).pipe $.size()
+  ))
+  # .on('prebundle', (bundle)->
+  #   bundle.require("../../client/lbclient/lbclient.js", { expose: 'lbclient' })
+  #   boot.compileToBrowserify({
+  #     appRootDir: distPath + "/lbclient",
+  #     env: "development"
+  #   }, bundle)
+  # )
+  .pipe(gulp.dest(distPath + "/scripts")).pipe $.size()
+
+  gulp.src('app/src/**/*.js')
+  .pipe(gulp.dest(distPath + "/scripts"));
+
+
 
 gulp.task "jade", ->
   gulp.src("app/template/*.jade").pipe($.jade(pretty: true)).pipe gulp.dest(distPath + "")
