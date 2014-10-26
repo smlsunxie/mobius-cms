@@ -13,3 +13,4 @@ client/app
 .sass-cache
 
 app/scripts
+.tmp

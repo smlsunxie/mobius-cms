@@ -4,8 +4,10 @@ del = require("del")
 path = require("path")
 distPath = "client/app"
 boot = require('loopback-boot')
+buildClientBundle = require('./client/lbclient/build');
 # Load plugins
 $ = require("gulp-load-plugins")()
+
 
 # Styles
 gulp.task "styles", ->
@@ -53,6 +55,10 @@ gulp.task "scripts", ["cjsx", "coffee"], ->
 
   gulp.src('app/src/**/*.js')
   .pipe(gulp.dest(distPath + "/scripts"));
+
+  buildClientBundle(process.env.NODE_ENV || 'development', (error)->
+
+  );
 
 
 
