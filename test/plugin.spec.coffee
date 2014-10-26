@@ -16,7 +16,7 @@ describe "/plugins", ->
         (plugins.length > 0).should.be.true
         done()
 
-  describe 'mount plugin', ->
+  describe.only 'mount plugin', ->
 
     it "execute mount", (done) ->
       app.models.Plugin.mount "cms-plugin-sample", (error, result) ->

@@ -5,6 +5,7 @@ path = require("path")
 distPath = "client/app"
 boot = require('loopback-boot')
 buildClientBundle = require('./client/lbclient/build');
+buildViewModules = require('./server/buildViewModules');
 # Load plugins
 $ = require("gulp-load-plugins")()
 
@@ -39,22 +40,26 @@ gulp.task "coffee", ->
 # Scripts
 gulp.task "scripts", ["cjsx", "coffee"], ->
 
-  gulp.src("app/scripts/app.js")
-  .pipe($.browserify(
-    insertGlobals: true
-    transform: ["reactify"]
-  ))
-  # .on('prebundle', (bundle)->
-  #   bundle.require("../../client/lbclient/lbclient.js", { expose: 'lbclient' })
-  #   boot.compileToBrowserify({
-  #     appRootDir: distPath + "/lbclient",
-  #     env: "development"
-  #   }, bundle)
-  # )
-  .pipe(gulp.dest(distPath + "/scripts")).pipe $.size()
+  # gulp.src("app/scripts/app.js")
+  # .pipe($.browserify(
+  #   insertGlobals: true
+  #   transform: ["reactify"]
+  # ))
+  # # .on('prebundle', (bundle)->
+  # #   bundle.require("../../client/lbclient/lbclient.js", { expose: 'lbclient' })
+  # #   boot.compileToBrowserify({
+  # #     appRootDir: distPath + "/lbclient",
+  # #     env: "development"
+  # #   }, bundle)
+  # # )
+  # .pipe(gulp.dest(distPath + "/scripts")).pipe $.size()
 
-  gulp.src('app/src/**/*.js')
-  .pipe(gulp.dest(distPath + "/scripts"));
+  buildViewModules()
+  .then(()->
+    gulp.src('app/src/**/*.js')
+    .pipe(gulp.dest(distPath + "/scripts"));
+  )
+
 
 
 gulp.task "lbclient", ->

@@ -1,12 +1,14 @@
 var sys = require('sys')
 var exec = require('child_process').exec;
 var Repo = require("git-tools");
-var fse = require('fs-extra')
+var fse = require('fs-extra');
+var $q = require("bluebird");
 
 var puts = function(error, stdout, stderr) { sys.puts(stdout) }
 
 var module_home = "cms_modules"
-
+var buildClientBundle = require("../../client/lbclient/build");
+var buildViewModules = require('../../server/buildViewModules');
 
 
 
@@ -26,11 +28,11 @@ module.exports = function(Plugin) {
       }, function( error, repo ){
 
 
-          var plugin = new Plugin({url: url, name: name})
+        var plugin = new Plugin({url: url, name: name})
 
-          Plugin.create(plugin, function(err, newPlugin){
-            cb(err, newPlugin);
-          });
+        Plugin.create(plugin, function(err, newPlugin){
+          cb(err, newPlugin);
+        });
 
 
       });
@@ -54,6 +56,7 @@ module.exports = function(Plugin) {
   Plugin.mount = function(moduleName, cb) {
 
     var mountActions = function(moduleName) {
+      console.log("=== mountActions ====");
       var actions = require("../../cms_modules/"+moduleName+"/config/actions.coffee");
 
       Plugin.modules[moduleName] = {}
@@ -66,6 +69,7 @@ module.exports = function(Plugin) {
     }
 
     var mountModels = function(moduleName) {
+      console.log("=== mountModels ====");
       var models = require("../../cms_modules/"+moduleName+"/config/models.coffee");
 
       models.forEach(function(model){
@@ -73,13 +77,29 @@ module.exports = function(Plugin) {
       });
     }
 
+    var mountViews = function(moduleName) {
+      console.log("=== mountViews ====");
+      var defer = $q.defer();
+
+      buildClientBundle(process.env.NODE_ENV || "development", function(result) {
+        defer.resolve(result);
+      })
+      return defer.promise;
+    }
+
+
 
     fse.copy(module_home+"/"+moduleName+"/dist", "client/modules/"+moduleName, function(error){
       // Create a open model that doesn't require predefined properties
       mountActions(moduleName);
       mountModels(moduleName);
+      mountViews(moduleName)
+      .then(buildViewModules)
+      .then(function(result){
+        return cb(null, {result: "ok"});
+      });
 
-      cb(null, {result: "ok"});
+
     });
 
   };
