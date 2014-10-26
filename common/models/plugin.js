@@ -94,9 +94,17 @@ module.exports = function(Plugin) {
       mountActions(moduleName);
       mountModels(moduleName);
       mountViews(moduleName)
-      .then(buildViewModules)
-      .then(function(result){
-        return cb(null, {result: "ok"});
+      .then(function(){
+
+        buildViewModules(function(){
+          return cb(null, {result: "ok"});
+        })
+
+      })
+
+      .error(function(error){
+        console.log("error", error);
+        return cb(error, {result: "notok"});
       });
 
 

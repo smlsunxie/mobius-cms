@@ -1,5 +1,5 @@
 React = window.React = require("react")
-Todo = require("./Todo")
+
 Home = require("./Home")
 
 RouteStore = require('../stores/RouteStore');
@@ -45,7 +45,7 @@ mountNode = document.getElementById("app")
 RouteStore.init(()->
   routes = RouteStore.getAll()
   createRoute = (route) ->
-    <Route name="todo" handler={Todo.app}/>
+    <Route name="todo" handler={modules["todo"]}/>
 
   Main.routes =
     <Routes location="history">

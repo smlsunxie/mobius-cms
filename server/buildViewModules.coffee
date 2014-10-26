@@ -1,30 +1,27 @@
-gulp = require("gulp")
-browserify = require('gulp-browserify');
-distPath = "client/app"
-$q = require("bluebird");
+browserify = require('browserify');
+distPath = "client/app/scripts"
+path = require('path');
+fs = require('fs');
 
-buildViewModules = () ->
+
+buildViewModules = (callback) ->
   console.log "=== buildViewModules ==="
-  defer = $q.defer();
-  gulp.src("app/scripts/app.js")
-  .pipe(browserify(
-    insertGlobals: true
-    transform: ["reactify"]
-  ))
-  # .on('prebundle', (bundle)->
-  #   bundle.require("../../client/lbclient/lbclient.js", { expose: 'lbclient' })
-  #   boot.compileToBrowserify({
-  #     appRootDir: distPath + "/lbclient",
-  #     env: "development"
-  #   }, bundle)
-  # )
-  .pipe(gulp.dest(distPath + "/scripts"))
-  .on('end', () ->
-    defer.resolve()
-  )
+
+  bundlePath = path.resolve(distPath, 'app.js');
+  out = fs.createWriteStream(bundlePath);
+
+  browserify = require('browserify');
+  b = browserify();
+  b.add('./app/scripts/app.js');
+  b.add('./cms_modules/cms-plugin-sample/app/scripts/Todo.js');
+  b.bundle()
+  .on('error', callback)
+  .pipe(out);
+
+  out.on('error', callback);
+  out.on('close', callback);
 
 
 
-  return defer.promise;
 
 module.exports = buildViewModules

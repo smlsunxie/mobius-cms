@@ -3,6 +3,11 @@
   "version": "0.0.1",
   "description": "LoopBack browser and server example",
   "main": "server/server.js",
+  "browserify": {
+    "transform": [
+      "reactify"
+    ]
+  },
   "directories": {
     "test": "test"
   },
@@ -99,7 +104,9 @@
     "coffee": "0.0.1",
     "git-tools": "~0.1.1",
     "fs-extra": "~0.12.0",
-    "bluebird": "~2.3.6"
+    "bluebird": "~2.3.6",
+    "vinyl-transform": "0.0.1",
+    "gulp-uglify": "~1.0.1"
   },
   "engines": {
     "node": ">=0.10.0"
