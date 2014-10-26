@@ -11,7 +11,7 @@
   "user": {
     "dataSource": "remote"
   },
-  "route": {
+  "Route": {
     "dataSource": "remote"
   }
 }

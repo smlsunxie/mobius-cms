@@ -3,10 +3,10 @@ merge = require('react/lib/merge');
 
 TodoStore = merge(EventEmitter.prototype,
   getAll: () ->
-    client.models.Todo.find {}, (error, todos)->
-      console.log "todos", todos
+    client.models.Route.find {include: "plugin"}, (error, routes)->
+      console.log "routes", routes
 
-      return todos
+      return routes
 )
 
 module.exports = TodoStore

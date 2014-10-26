@@ -56,9 +56,12 @@ gulp.task "scripts", ["cjsx", "coffee"], ->
   gulp.src('app/src/**/*.js')
   .pipe(gulp.dest(distPath + "/scripts"));
 
-  buildClientBundle(process.env.NODE_ENV || 'development', (error)->
 
+gulp.task "lbclient", ->
+  buildClientBundle(process.env.NODE_ENV || 'development', (error)->
+    console.log "error", error
   );
+
 
 
 
@@ -101,6 +104,7 @@ gulp.task "clean", (cb) ->
 gulp.task "bundle", [
   "styles"
   "scripts"
+  "lbclient"
   "bower"
 ], ->
   gulp.src("./app/*.html").pipe($.useref.assets()).pipe($.useref.restore()).pipe($.useref()).pipe gulp.dest(distPath + "")
@@ -180,4 +184,16 @@ gulp.task "watch", ["default"], ->
 
   # Watch image files
   gulp.watch "app/images/**/*", ["images"]
+
+
+  # Watch lbclient files
+  gulp.watch [
+    "client/lbclient/models/*"
+    "client/lbclient/app*"
+    "client/lbclient/datasources*"
+    "client/lbclient/models*"
+    "client/lbclient/build.js"
+  ], ["lbclient"]
+
+
   return
