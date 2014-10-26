@@ -1,12 +1,18 @@
 EventEmitter = require('events').EventEmitter;
 merge = require('react/lib/merge');
 
-TodoStore = merge(EventEmitter.prototype,
-  getAll: () ->
-    client.models.Route.find {include: "plugin"}, (error, routes)->
-      console.log "routes", routes
+RouteStore = merge(EventEmitter.prototype,
+  routes: []
+  init: (cb) ->
+    that = this
 
-      return routes
+    client.models.Route.find {include: "plugin"}, (error, routes)->
+      that.routes = routes
+      return cb()
+
+
+  getAll: () ->
+    return @routes
 )
 
-module.exports = TodoStore
+module.exports = RouteStore

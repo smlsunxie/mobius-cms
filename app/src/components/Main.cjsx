@@ -13,14 +13,21 @@ Link = Router.Link
 Main = {}
 Main.app = React.createClass(
   getInitialState: ->
-    data: RouteStore.getAll()
+    that = @
+    return routes: RouteStore.getAll()
 
   render: ->
+    createUl = (route) ->
+      <li><Link to={route.name} >{route.title}</Link></li>
+
+
+
     <div>
       <header>
         <ul>
           <li><Link to="app">Dashboard</Link></li>
-          <li><Link to="todo">todo</Link></li>
+
+          {@state.routes.map(createUl)}
         </ul>
 
       </header>
@@ -31,12 +38,25 @@ Main.app = React.createClass(
 
 )
 
-Main.routes =
-  <Routes location="history">
-    <Route name="app" path="/ui" handler={Main.app}>
-      <Route name="todo" handler={Todo.app}/>
-      <DefaultRoute handler={Home}/>
-    </Route>
-  </Routes>
+
+
+mountNode = document.getElementById("app")
+
+RouteStore.init(()->
+  routes = RouteStore.getAll()
+  createRoute = (route) ->
+    <Route name="todo" handler={Todo.app}/>
+
+  Main.routes =
+    <Routes location="history">
+      <Route name="app" path="/ui" handler={Main.app}>
+        {routes.map(createRoute)}
+        <DefaultRoute handler={Home}/>
+      </Route>
+    </Routes>
+
+  React.renderComponent Main.routes, mountNode
+)
+
 
 module.exports = Main
