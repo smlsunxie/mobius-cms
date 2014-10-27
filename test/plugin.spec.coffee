@@ -29,18 +29,25 @@ describe "/plugins", ->
         done()
 
     it "can access dynamic model", (done) ->
-      Form = app.models.Form
-      Form.should.be.Object
+      ModuleTodo = app.models.ModuleTodo
+      ModuleTodo.should.be.Object
       done()
 
     it "can create dynamic model", (done) ->
-      Form = app.models.Form
-      Form.create {name: "testForm"}, (error, newForm) ->
+      ModuleTodo = app.models.ModuleTodo
+      ModuleTodo.create {name: "testModuleTodo"}, (error, newForm) ->
         newForm.should.be.Object
 
-        Form.find {}, (error, forms) ->
-          (forms.length > 0).should.be.true
+        ModuleTodo.find {}, (error, moduleTodos) ->
+          (moduleTodos.length > 0).should.be.true
           done()
+
+    lt.describe.whenCalledRemotely "GET", "/api/ModuleTodos", ->
+
+      it "should have statusCode 200", ->
+        assert.equal @res.statusCode, 200
+        (@res.body.length > 0).should.be.true
+
 
 
     lt.describe.whenCalledRemotely "POST", "/api/routes/action", {

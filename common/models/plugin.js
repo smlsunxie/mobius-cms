@@ -14,7 +14,7 @@ var buildViewModules = require('../../server/buildViewModules');
 
 
 module.exports = function(Plugin) {
-  
+
 
   Plugin.install = function(url, name, cb) {
     // console.log("app.models.Plugin", app.models.Plugin.install);
@@ -53,7 +53,10 @@ module.exports = function(Plugin) {
       var models = require("../../cms_modules/"+moduleName+"/config/models.coffee");
 
       models.forEach(function(model){
-        app.models[model.name] = app.datasources.db.createModel(model.name, model.properties);
+        var ModuleModel = app.datasources.db.createModel(model.name, model.properties);
+        app.model(ModuleModel);
+        app.use(loopback.rest());
+
       });
     }
 
