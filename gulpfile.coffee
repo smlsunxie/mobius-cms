@@ -38,7 +38,7 @@ gulp.task "coffee", ->
 
 
 # Scripts
-gulp.task "scripts", ["cjsx", "coffee", "lbclient"], ->
+gulp.task "scripts", ["cjsx", "coffee"], ->
 
   # gulp.src("app/scripts/app.js")
   # .pipe($.browserify(
@@ -108,7 +108,7 @@ gulp.task "clean", (cb) ->
 gulp.task "bundle", [
   "styles"
   "scripts"
-  # "lbclient"
+  "lbclient"
   "bower"
 ], ->
   gulp.src("./app/*.html").pipe($.useref.assets()).pipe($.useref.restore()).pipe($.useref()).pipe gulp.dest(distPath + "")
@@ -123,7 +123,7 @@ gulp.task "build", [
 
 # Default task
 gulp.task "default", [
-  "clean"
+
   "build"
   "jest"
 ]
