@@ -1,6 +1,7 @@
 
 describe "/plugins", ->
   Plugin = app.models.Plugin
+  Route = app.models.Route
 
   describe 'install plugin', ->
 
@@ -16,13 +17,15 @@ describe "/plugins", ->
         (plugins.length > 0).should.be.true
         done()
 
-  describe 'mount plugin', ->
+  describe.only 'mount plugin', ->
 
     it "execute mount", (done) ->
       app.models.Plugin.mount "cms-plugin-sample", (error, result) ->
+        console.log "Route", Route
 
-        Plugin.modules.should.have.property("cms-plugin-sample")
-        Plugin.modules["cms-plugin-sample"].should.have.property("testAction")
+
+        Route.modules.should.have.property("cms-plugin-sample")
+        Route.modules["cms-plugin-sample"].should.have.property("testAction")
         done()
 
     it "can access dynamic model", (done) ->
@@ -40,7 +43,7 @@ describe "/plugins", ->
           done()
 
 
-    lt.describe.whenCalledRemotely "POST", "/api/plugins/action", {
+    lt.describe.whenCalledRemotely "POST", "/api/routes/action", {
       moduleName:"cms-plugin-sample"
       actionName:"testAction"
     }, ->

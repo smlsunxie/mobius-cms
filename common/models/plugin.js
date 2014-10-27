@@ -14,7 +14,7 @@ var buildViewModules = require('../../server/buildViewModules');
 
 
 module.exports = function(Plugin) {
-  Plugin.modules = {};
+  
 
   Plugin.install = function(url, name, cb) {
     // console.log("app.models.Plugin", app.models.Plugin.install);
@@ -43,30 +43,10 @@ module.exports = function(Plugin) {
   };
 
 
-  Plugin.action = function(moduleName, actioName, params, cb) {
-    console.log("=== call Plugin.action ===");
-    console.log("action info :", moduleName, actioName);
-
-    Plugin.modules[moduleName][actioName](params, function(error, result){
-      cb(error, result)
-    })
-  };
 
 
   Plugin.mount = function(moduleName, cb) {
 
-    var mountActions = function(moduleName) {
-      console.log("=== mountActions ====");
-      var actions = require("../../cms_modules/"+moduleName+"/config/actions.coffee");
-
-      Plugin.modules[moduleName] = {}
-      Plugin.modules[moduleName].app = app
-
-      actions.forEach(function(action){
-        Plugin.modules[moduleName][action.name] = action.execution
-      });
-
-    }
 
     var mountModels = function(moduleName) {
       console.log("=== mountModels ====");
@@ -91,7 +71,7 @@ module.exports = function(Plugin) {
 
     fse.copy(module_home+"/"+moduleName+"/dist", "client/modules/"+moduleName, function(error){
       // Create a open model that doesn't require predefined properties
-      mountActions(moduleName);
+      app.models.Route.mountActions(moduleName);
       mountModels(moduleName);
       mountViews(moduleName)
       .then(function(){
@@ -121,14 +101,6 @@ module.exports = function(Plugin) {
     // http: {verb: "get"}
   });
 
-  Plugin.remoteMethod("action", {
-    accepts: [
-      {arg: "moduleName", type: "string", required: true},
-      {arg: "actionName", type: "string", required: true},
-      {arg: "params", type: "object"}
-    ],
-    returns: {arg: "result", type: "object"}
-  });
 
 
 };
