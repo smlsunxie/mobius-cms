@@ -1,3 +1,4 @@
+process.env.NODE_ENV = "test"
 require("../../server/server.coffee")
 global.lt = require("loopback-testing")
 global.assert = require('chai').assert

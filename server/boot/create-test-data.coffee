@@ -10,6 +10,9 @@ module.exports = createTestData = (server) ->
     (done) ->
       plugin = new Plugin({url: "git@github.com:smlsunxie/cms-plugin-sample.git", name: "cms-plugin-sample"})
       Plugin.create plugin, (err, newPlugin) ->
+
+        return done(err, newPlugin) if process.env.NODE_ENV is "test"
+
         Plugin.mount "cms-plugin-sample", () ->
           return done(err, newPlugin)
 
