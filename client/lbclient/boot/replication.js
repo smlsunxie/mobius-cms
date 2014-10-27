@@ -10,7 +10,6 @@
 module.exports = function(client) {
   var LocalTodo = client.models.LocalTodo;
   var RemoteTodo = client.models.Todo;
-  console.log("LocalTodo", LocalTodo);
 
   client.network = {
     _isConnected: true,

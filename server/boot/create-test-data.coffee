@@ -8,11 +8,11 @@ module.exports = createTestData = (server) ->
 
   async.waterfall [
     (done) ->
-      plugin = new Plugin({url: "git@github.com:smlsunxie/cms-plugin-todo.git", name: "cms-plugin-todo"})
+      plugin = new Plugin({url: "git@github.com:smlsunxie/cms-plugin-sample.git", name: "cms-plugin-sample"})
       Plugin.create plugin, (err, newPlugin) ->
-
-        return done(err, newPlugin)
-
+        Plugin.mount("cms-plugin-sample", () ->
+          return done(err, newPlugin)
+        )
 
     (newPlugin, done) ->
 
@@ -28,6 +28,8 @@ module.exports = createTestData = (server) ->
       Route.create route, (err, newRoute) ->
         console.log "Route create!!"
         return done(err)
+
+
 
 
   ], (error, result) ->

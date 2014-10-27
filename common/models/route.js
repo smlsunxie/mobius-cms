@@ -11,13 +11,14 @@ module.exports = function(Route) {
     Route.modules[moduleName].app = app
 
     actions.forEach(function(action){
+      console.log("mount Route.actio:", moduleName, action.name);
       Route.modules[moduleName][action.name] = action.execution
     });
 
   }
 
   Route.action = function(moduleName, actioName, params, cb) {
-    console.log("=== call Route.action ===");
+
     console.log("action info :", moduleName, actioName);
 
     Route.modules[moduleName][actioName](params, function(error, result){
