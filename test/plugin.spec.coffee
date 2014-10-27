@@ -17,7 +17,7 @@ describe "/plugins", ->
         (plugins.length > 0).should.be.true
         done()
 
-  describe.only 'mount plugin', ->
+  describe 'mount plugin', ->
 
     it "execute mount", (done) ->
       app.models.Plugin.mount "cms-plugin-sample", (error, result) ->
@@ -58,3 +58,26 @@ describe "/plugins", ->
       it "should have statusCode 200", ->
         assert.equal @res.statusCode, 200
         @res.body.should.have.property("result")
+
+    lt.describe.whenCalledRemotely "POST", "/api/routes/action", {
+      moduleName:"cms-plugin-sample"
+      actionName:"post"
+      params: {
+        name: "todo A"
+      }
+    }, ->
+
+      it "should have statusCode 200", ->
+        assert.equal @res.statusCode, 200
+        @res.body.should.have.property("result")
+
+    lt.describe.whenCalledRemotely "POST", "/api/routes/action", {
+      moduleName:"cms-plugin-sample"
+      actionName:"get"
+    }, ->
+
+      it "should have statusCode 200", ->
+        assert.equal @res.statusCode, 200
+        console.log "@res.body", @res.body
+        @res.body.should.have.property("result")
+        (@res.body.result.length > 1).should.be.true

@@ -197,6 +197,8 @@ gulp.task "watch", ["default"], ->
     "client/lbclient/datasources*"
     "client/lbclient/models*"
     "client/lbclient/build.js"
+    "client/lbclient/datasources.json"
+    "client/lbclient/model-config.json"
   ], ["lbclient"]
 
 

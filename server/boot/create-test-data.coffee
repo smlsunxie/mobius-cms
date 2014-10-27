@@ -10,9 +10,9 @@ module.exports = createTestData = (server) ->
     (done) ->
       plugin = new Plugin({url: "git@github.com:smlsunxie/cms-plugin-sample.git", name: "cms-plugin-sample"})
       Plugin.create plugin, (err, newPlugin) ->
-        Plugin.mount("cms-plugin-sample", () ->
+        Plugin.mount "cms-plugin-sample", () ->
           return done(err, newPlugin)
-        )
+
 
     (newPlugin, done) ->
 

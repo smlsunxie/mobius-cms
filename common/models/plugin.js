@@ -4,7 +4,7 @@ var Repo = require("git-tools");
 var fse = require('fs-extra');
 var $q = require("bluebird");
 
-var puts = function(error, stdout, stderr) { sys.puts(stdout) }
+
 
 var module_home = "cms_modules"
 var buildClientBundle = require("../../client/lbclient/build");
@@ -27,6 +27,7 @@ module.exports = function(Plugin) {
         dir: module_home+"/"+name,
       }, function( error, repo ){
 
+        console.log("error", error);
 
         var plugin = new Plugin({url: url, name: name})
 
@@ -78,7 +79,6 @@ module.exports = function(Plugin) {
       mountModels(moduleName);
       mountViews(moduleName)
       .then(function(){
-
         buildViewModules(function(){
           return cb(null, {result: "ok"});
         })
