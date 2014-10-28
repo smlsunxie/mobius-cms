@@ -81,3 +81,16 @@ describe "/plugins", ->
         console.log "@res.body", @res.body
         @res.body.should.have.property("result")
         (@res.body.result.length > 1).should.be.true
+
+  describe 'show plugin info', ->
+
+    it "get info data", ->
+      Plugin.info "1", (error, info)->
+        console.log "info", info
+
+
+    lt.describe.whenCalledRemotely "GET", "/api/plugins/info?id=1", ->
+      it "should have statusCode 200", ->
+        assert.equal @res.statusCode, 200
+        console.log "@res.body", @res.body
+        @res.body.should.have.property("result")

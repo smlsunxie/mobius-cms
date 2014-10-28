@@ -4,16 +4,21 @@ module.exports = function(Route) {
   Route.modules = {}
   Route.mountActions = function(moduleName) {
 
-    console.log("=== mountActions ====");
-    var actions = require("../../cms_modules/"+moduleName+"/config/actions.coffee");
+    try{
+      console.log("=== mountActions ====");
+      var actions = require("../../cms_modules/"+moduleName+"/config/actions.coffee");
 
-    Route.modules[moduleName] = {}
-    Route.modules[moduleName].app = app
+      Route.modules[moduleName] = {}
+      Route.modules[moduleName].app = app
 
-    actions.forEach(function(action){
-      console.log("mount Route.actio:", moduleName, action.name);
-      Route.modules[moduleName][action.name] = action.execution
-    });
+      actions.forEach(function(action){
+        console.log("mount Route.actio:", moduleName, action.name);
+        Route.modules[moduleName][action.name] = action.execution
+      });
+
+    }catch(error){
+      console.log("mountActions error", error);
+    }
 
   }
 
@@ -35,6 +40,26 @@ module.exports = function(Route) {
     ],
     returns: {arg: "result", type: "object"}
   });
+
+
+  Route.createTestData = function(newPlugin, cb){
+    var route;
+
+    route = new Route({
+      name: "todo",
+      title: "todo",
+      path: "todo",
+      plugin: newPlugin
+    });
+
+    Route.create(route, function(err, newRoute) {
+
+      return cb(err);
+    });
+
+
+  }
+
 
 
 };

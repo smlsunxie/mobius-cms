@@ -27,7 +27,7 @@ gulp.task "cjsx", ->
 
 
 # CoffeeScript
-gulp.task "coffee", ->
+gulp.task "coffee",["cjsx"] , ->
   gulp.src([
     "app/src/**/*.coffee"
     "!app/src/**/*.js"
@@ -38,26 +38,17 @@ gulp.task "coffee", ->
 
 
 # Scripts
-gulp.task "scripts", ["cjsx", "coffee"], ->
+gulp.task "scripts", ["coffee"], ->
 
-  # gulp.src("app/scripts/app.js")
-  # .pipe($.browserify(
-  #   insertGlobals: true
-  #   transform: ["reactify"]
-  # ))
-  # # .on('prebundle', (bundle)->
-  # #   bundle.require("../../client/lbclient/lbclient.js", { expose: 'lbclient' })
-  # #   boot.compileToBrowserify({
-  # #     appRootDir: distPath + "/lbclient",
-  # #     env: "development"
-  # #   }, bundle)
-  # # )
-  # .pipe(gulp.dest(distPath + "/scripts")).pipe $.size()
-
-  buildViewModules(()->
-    gulp.src('app/src/**/*.js')
-    .pipe(gulp.dest(distPath + "/scripts"));
+  gulp.src('app/src/**/*.js')
+  .pipe(gulp.dest(distPath + "/scripts"))
+  .on("end", ->
+    buildViewModules(null, ()->
+      console.log "buildViewModules end"
+    )
   )
+
+
 
 
 

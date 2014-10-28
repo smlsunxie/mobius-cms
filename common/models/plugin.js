@@ -32,7 +32,12 @@ module.exports = function(Plugin) {
         var plugin = new Plugin({url: url, name: name})
 
         Plugin.create(plugin, function(err, newPlugin){
-          cb(err, newPlugin);
+          Plugin.mount(name, function(err, result){
+            result.plugin = newPlugin
+            app.models.Route.createTestData(newPlugin, function(){
+              cb(err, result);
+            })
+          })
         });
 
 
@@ -50,24 +55,50 @@ module.exports = function(Plugin) {
 
 
     var mountModels = function(moduleName) {
+
       console.log("=== mountModels ====");
-      var models = require("../../cms_modules/"+moduleName+"/config/models.coffee");
+      var file = "../../cms_modules/"+moduleName+"/config/models.coffee";
 
-      models.forEach(function(model){
-        var ModuleModel = app.datasources.db.createModel(model.name, model.properties);
-        app.model(ModuleModel);
-        app.use(loopback.rest());
+      fse.ensureFile(file, function(err) {
+        if(err){
+          console.log("error", err);
+          return
+        }
+        var models = require("../../cms_modules/"+moduleName+"/config/models.coffee");
 
-      });
+        models.forEach(function(model){
+          var ModuleModel = app.datasources.db.createModel(model.name, model.properties);
+          app.model(ModuleModel);
+          app.use(loopback.rest());
+
+        });
+      })
+
     }
 
     var mountViews = function(moduleName) {
       console.log("=== mountViews ====");
       var defer = $q.defer();
 
-      buildClientBundle(process.env.NODE_ENV || "development", function(result) {
-        defer.resolve(result);
-      })
+      // buildClientBundle(process.env.NODE_ENV || "development", function(result) {
+      //   defer.resolve(result);
+      // })
+
+      var file = "../../cms_modules/cms-plugin-sample/app/scripts/Todo.js";
+
+      fse.ensureFile(file, function(err) {
+        if(err){
+          console.log("error", err);
+          return defer.resolve();
+        }
+
+
+        buildViewModules(["./cms_modules/cms-plugin-sample/app/scripts/Todo.js"],function(){
+          return defer.resolve();
+        });
+      });
+
+
       return defer.promise;
     }
 
@@ -79,15 +110,11 @@ module.exports = function(Plugin) {
       mountModels(moduleName);
       mountViews(moduleName)
       .then(function(){
-        buildViewModules(function(){
-          return cb(null, {result: "ok"});
-        })
-
+        return cb(null, {success: true});
       })
 
       .error(function(error){
-        console.log("error", error);
-        return cb(error, {result: "notok"});
+        return cb(error, {success: false});
       });
 
 
@@ -95,14 +122,42 @@ module.exports = function(Plugin) {
 
   };
 
+  Plugin.info = function(id, cb) {
+
+    var info = {}
+
+    Plugin.findOne({id: id}, function(error, plugin){
+      info.plugin = plugin
+      var models = require("../../cms_modules/"+plugin.name+"/config/models.coffee");
+      var actions = require("../../cms_modules/"+plugin.name+"/config/actions.coffee");
+
+      info.plugin = plugin
+
+      info.models = models
+      info.actions = actions
+
+      return cb(error, info);
+    })
+
+  }
+
   Plugin.remoteMethod("install", {
     accepts: [
       {arg: "url", type: "string", required: true},
       {arg: "name", type: "string", required: true}
     ],
-    returns: {arg: "result", type: "object"}
-    // http: {verb: "get"}
+    returns: {arg: "result", type: "object"},
+    http: {verb: "get"}
   });
+
+  Plugin.remoteMethod("info", {
+    accepts: [
+      {arg: "id", type: "string", required: true}
+    ],
+    returns: {arg: "result", type: "object"},
+    http: {verb: "get"}
+  });
+
 
 
 

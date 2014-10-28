@@ -8,14 +8,7 @@ RouteStore = merge(EventEmitter.prototype,
 
     client.models.Route.find {include: "plugin"}, (error, routes)->
       that.routes = routes
-
-      client.models.Route.action "cms-plugin-sample", "testAction", {}, (error, result) ->
-        console.log "client.models.Route.action result:", result
-
-        # client.models.ModuleTodo.find {}, (error, ModuleTodos) ->
-        #   console.log "ModuleTodos:", ModuleTodos
-
-        return cb()
+      return cb()
 
 
   getAll: () ->
