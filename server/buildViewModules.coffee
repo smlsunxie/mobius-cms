@@ -14,7 +14,6 @@ buildViewModules = (modules, callback) ->
   bundlePath = path.resolve(distPath, 'app.js');
   out = fs.createWriteStream(bundlePath);
 
-  browserify = require('browserify');
   b = browserify();
 
   b.add("./app/scripts/app.js");

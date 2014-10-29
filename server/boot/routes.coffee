@@ -1,3 +1,11 @@
+# http = require('http')
+# browserify = require('browserify')
+# literalify = require('literalify')
+# React = require('react')
+# MyApp = React.createFactory(require('./app/scripts/app'))
+#
+#
+
 module.exports = (app) ->
 
   router = app.loopback.Router()
