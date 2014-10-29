@@ -1,4 +1,3 @@
-React = require("react")
 
 Home = React.createClass(
   render: ->

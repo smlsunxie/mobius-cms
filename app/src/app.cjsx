@@ -14,20 +14,28 @@ Main = require("./components/Main")
 window.modules = {}
 
 
-mountNode = document.getElementById("app")
+app = React.createClass(
 
-RouteStore.init(()->
-  routes = RouteStore.getAll()
-  createRoute = (route) ->
-    <Route name="todo" handler={modules["todo"]}/>
+  render: ->
+    createRoute = (route) ->
+      <Route name="todo" handler={modules["todo"]}/>
 
-  routesCmp =
     <Routes location="history">
       <Route name="app" path="/ui" handler={Main}>
-        {routes.map(createRoute)}
+        {@props.routes.map(createRoute)}
         <DefaultRoute handler={Home}/>
       </Route>
     </Routes>
 
-  React.renderComponent routesCmp, mountNode
 )
+
+mountNode = document.getElementById("app")
+
+RouteStore.init(()->
+  routes = RouteStore.getAll()
+  React.renderComponent <app routes={routes} />, mountNode
+
+
+)
+
+module.exports = app
