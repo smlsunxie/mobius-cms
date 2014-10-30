@@ -20,12 +20,13 @@
 * dynamic front end and backend  routing
 
 
-# Install and Run
+## Install and Run
 
 * ``npm install``
 * ``bower install``
 * ``gulp``
 * ``coffee server/server.coffee``
+
 
 after install, we can access web site by:
 
@@ -35,7 +36,20 @@ the initial page like above picture:
 
 ![enter image description here](https://lh6.googleusercontent.com/-4Vy9caO8M9k/VE8P5Ff29DI/AAAAAAAAPyY/irA1XRuDCmM/s0/%E8%9E%A2%E5%B9%95%E5%BF%AB%E7%85%A7+2014-10-28+%E4%B8%8A%E5%8D%8811.32.13.png "螢幕快照 2014-10-28 上午11.32.13.png")
 
-# Install plugin in runtime
+## run on docker
+
+if your computer without nodejs environment, this project can run on docker, just install [docker](https://www.docker.com/) and [fig](http://www.fig.sh/), then run below command:
+
+``fig up mobius``
+
+take a while, it well ready for use.
+
+if you run on docker, your host is ``localdocker`` or find your own docker host by ``boot2docker ip``.
+
+then the url will be [http://localdocker:3000/ui](http://localdocker:3000/ui)
+
+
+## plugin install without restart
 
 install plugin [cms-plugin-sample](https://github.com/smlsunxie/cms-plugin-sample), that is a todo list.
 
@@ -65,7 +79,7 @@ the preview page above :
 ![enter image description here](https://lh6.googleusercontent.com/-iDpagqQMB0s/VE8P-8IrMvI/AAAAAAAAPyk/C9cJozsGTgE/s0/%E8%9E%A2%E5%B9%95%E5%BF%AB%E7%85%A7+2014-10-28+%E4%B8%8A%E5%8D%8811.38.06.png "螢幕快照 2014-10-28 上午11.38.06.png")
 
 
-you can check plugin info by visit: http://localhost:3000/api/Plugins/info?id=1
+you can check plugin info by visit: [http://localhost:3000/api/Plugins/info?id=1](http://localhost:3000/api/Plugins/info?id=1)
 
 sample result:
 
