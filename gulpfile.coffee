@@ -63,7 +63,7 @@ gulp.task "lbclient", ->
 gulp.task "testmodule", ->
 
   gulp.src(['client/app/scripts/lbclient.js', 'client/lbclient/browser.bundle.js'])
-  .pipe(gulp.dest("cms_modules/"+test_module_name+"/dist/scripts"))
+  .pipe(gulp.dest("cms_modules/"+test_module_name+"/dist/lbclient"))
   .on("end", ->
       app = require("./server/server.coffee")
       app.start()
