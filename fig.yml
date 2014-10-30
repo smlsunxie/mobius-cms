@@ -1,0 +1,9 @@
+mobius:
+  image: smlsunxie/cms-env:latest
+  working_dir: /mobius_cms
+  command: "/bin/bash -c 'coffee server/server.coffee'"
+  volumes:
+  - ./:/mobius_cms
+
+  ports:
+    - "3000:3000"
