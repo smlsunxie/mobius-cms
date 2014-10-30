@@ -60,9 +60,9 @@ gulp.task "lbclient", ->
     console.log "error", error
   );
 
-gulp.task "testmodule", ->
+gulp.task "testmodule", ["lbclient"], ->
 
-  gulp.src(['client/app/scripts/lbclient.js', 'client/lbclient/browser.bundle.js'])
+  gulp.src(['app/src/lbclient.js', 'client/lbclient/browser.bundle.js'])
   .pipe(gulp.dest("cms_modules/"+test_module_name+"/dist/lbclient"))
   .on("end", ->
       app = require("./server/server.coffee")
