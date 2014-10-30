@@ -6,8 +6,11 @@ distPath = "client/app"
 boot = require('loopback-boot')
 buildClientBundle = require('./client/lbclient/build');
 buildViewModules = require('./server/buildViewModules');
+util = require('gulp-util');
 # Load plugins
 $ = require("gulp-load-plugins")()
+
+test_module_name = util.env.module_name
 
 
 # Styles
@@ -56,6 +59,23 @@ gulp.task "lbclient", ->
   buildClientBundle(process.env.NODE_ENV || 'development', (error)->
     console.log "error", error
   );
+
+gulp.task "testmodule", ->
+
+  gulp.src(['client/app/scripts/lbclient.js', 'client/lbclient/browser.bundle.js'])
+  .pipe(gulp.dest("cms_modules/"+test_module_name+"/dist/scripts"))
+  .on("end", ->
+      app = require("./server/server.coffee")
+      app.start()
+
+      app.models.Plugin.mount "cms-plugin-sample", (error, result) ->
+        console.log "result", result
+
+
+
+
+  )
+
 
 
 
