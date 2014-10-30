@@ -55,9 +55,10 @@ gulp.task "scripts", ["coffee"], ->
 
 
 
-gulp.task "lbclient", ->
+gulp.task "lbclient", (done)->
   buildClientBundle(process.env.NODE_ENV || 'development', (error)->
-    console.log "error", error
+
+    done()
   );
 
 gulp.task "testmodule", ["lbclient"], ->
