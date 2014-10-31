@@ -69,7 +69,7 @@ gulp.task "testmodule", ["lbclient"], ->
       app = require("./server/server.coffee")
       app.start()
 
-      app.models.Plugin.mount "cms-plugin-sample", (error, result) ->
+      app.models.Plugin.mount test_module_name, (error, result) ->
         console.log "result", result
 
 
