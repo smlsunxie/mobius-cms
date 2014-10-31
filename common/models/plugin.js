@@ -27,8 +27,6 @@ module.exports = function(Plugin) {
         dir: module_home+"/"+name,
       }, function( error, repo ){
 
-        console.log("error", error);
-
         var plugin = new Plugin({url: url, name: name})
 
         Plugin.create(plugin, function(err, newPlugin){
@@ -53,18 +51,21 @@ module.exports = function(Plugin) {
 
   Plugin.mount = function(moduleName, cb) {
 
+    var pluginPkgInfo = require('../../cms_modules/'+moduleName+'/package.json');
+
+    console.log("pluginPkgInfo", pluginPkgInfo);
+
 
     var mountModels = function(moduleName) {
 
-      console.log("=== mountModels ====");
-      var file = "../../cms_modules/"+moduleName+"/config/models.coffee";
+      var file = "../../cms_modules/"+pluginPkgInfo.name+"/config/models.coffee";
 
       fse.ensureFile(file, function(err) {
         if(err){
           console.log("error", err);
           return
         }
-        var models = require("../../cms_modules/"+moduleName+"/config/models.coffee");
+        var models = require("../../cms_modules/"+pluginPkgInfo.name+"/config/models.coffee");
 
         models.forEach(function(model){
           var ModuleModel = app.datasources.db.createModel(model.name, model.properties);

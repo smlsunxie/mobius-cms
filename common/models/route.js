@@ -43,18 +43,22 @@ module.exports = function(Route) {
 
 
   Route.createTestData = function(newPlugin, cb){
+
+    var pluginPkgInfo = require('../../cms_modules/'+newPlugin.name+'/package.json');
     var route;
 
     route = new Route({
-      name: "todo",
-      title: "todo",
-      path: "todo",
+      name: pluginPkgInfo.route.name,
+      title: pluginPkgInfo.route.title,
+      path: pluginPkgInfo.route.path,
       plugin: newPlugin
     });
 
+
+
     Route.create(route, function(err, newRoute) {
 
-      return cb(err);
+      return cb(err, newRoute);
     });
 
 

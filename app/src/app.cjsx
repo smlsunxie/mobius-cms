@@ -18,7 +18,7 @@ app = React.createClass(
 
   render: ->
     createRoute = (route) ->
-      <Route name="todo" handler={modules["todo"]}/>
+      <Route name={route.path} handler={modules[route.name]}/>
 
     <Routes location="history">
       <Route name="app" path="/ui" handler={Main}>

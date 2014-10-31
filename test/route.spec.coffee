@@ -14,9 +14,21 @@ describe "route", ->
 
   describe  'boot has route with plugin by rest', ->
 
-  lt.describe.whenCalledRemotely "get", "/api/Routes?filter[include]=plugin", ->
+    lt.describe.whenCalledRemotely "get", "/api/Routes?filter[include]=plugin", ->
 
-    it "should have statusCode 200", ->
-      assert.equal @res.statusCode, 200
-      @res.body[0].should.be.have.property "plugin"
-      @res.body[0].plugin.should.be.Object
+      it "should have statusCode 200", ->
+        assert.equal @res.statusCode, 200
+        @res.body[0].should.be.have.property "plugin"
+        @res.body[0].plugin.should.be.Object
+
+  describe.only "create route by plugin", ->
+
+
+    it "should have route",(done) ->
+      Plugin.find {}, (error, plugins) ->
+
+        console.log "Plugins[0]", plugins[0]
+
+        Route.createTestData plugins[0], (err, newRoute)->
+          newRoute.should.be.a.Object
+          done()
