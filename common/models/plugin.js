@@ -85,12 +85,11 @@ module.exports = function(Plugin) {
       //   defer.resolve(result);
       // })
 
-      var file = "../../cms_modules/cms-plugin-sample/app/scripts/Todo.js";
       var mainFiles = pluginPkgInfo.main
 
       console.log("mainFiles", mainFiles);
       var bundleFiles = mainFiles.map(function (file) {
-        return "../../cms_modules/" + moduleName + "/" + file
+        return "./cms_modules/" + moduleName + "/" + file
       })
 
       fse.ensureDir("../../cms_modules/" + moduleName, function(err) {
