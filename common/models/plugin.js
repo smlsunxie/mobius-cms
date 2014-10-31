@@ -27,6 +27,9 @@ module.exports = function(Plugin) {
         dir: module_home+"/"+name,
       }, function( error, repo ){
 
+        console.log("error", error);
+        console.log("repo", repo);
+
         var plugin = new Plugin({url: url, name: name})
 
         Plugin.create(plugin, function(err, newPlugin){
@@ -87,7 +90,7 @@ module.exports = function(Plugin) {
 
       var mainFiles = pluginPkgInfo.main
 
-      console.log("mainFiles", mainFiles);
+
       var bundleFiles = mainFiles.map(function (file) {
         return "./cms_modules/" + moduleName + "/" + file
       })
