@@ -19,7 +19,7 @@ describe "/plugins", ->
 
   describe 'mount plugin', ->
 
-    it "execute mount", (done) ->
+    it.only "execute mount", (done) ->
       app.models.Plugin.mount "cms-plugin-sample", (error, result) ->
         console.log "Route", Route
 

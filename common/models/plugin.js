@@ -86,15 +86,21 @@ module.exports = function(Plugin) {
       // })
 
       var file = "../../cms_modules/cms-plugin-sample/app/scripts/Todo.js";
+      var mainFiles = pluginPkgInfo.main
 
-      fse.ensureFile(file, function(err) {
+      console.log("mainFiles", mainFiles);
+      var bundleFiles = mainFiles.map(function (file) {
+        return "../../cms_modules/" + moduleName + "/" + file
+      })
+
+      fse.ensureDir("../../cms_modules/" + moduleName, function(err) {
         if(err){
           console.log("error", err);
           return defer.resolve();
         }
 
 
-        buildViewModules(["./cms_modules/cms-plugin-sample/app/scripts/Todo.js"],function(){
+        buildViewModules(bundleFiles,function(){
           return defer.resolve();
         });
       });
