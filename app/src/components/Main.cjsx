@@ -1,4 +1,5 @@
 Router = require('react-router')
+
 Link = Router.Link
 
 module.exports = React.createClass(
@@ -11,6 +12,7 @@ module.exports = React.createClass(
       <li><Link to={route.name} >{route.title}</Link></li>
 
 
+    console.log 'modules["foot"]', modules["foot"]
 
     <div>
       <header>
@@ -23,6 +25,11 @@ module.exports = React.createClass(
       </header>
 
       <this.props.activeRouteHandler/>
+
+      <footer>
+        {if modules["foot"] then modules["foot"]() }
+      </footer>
+
     </div>
 
 

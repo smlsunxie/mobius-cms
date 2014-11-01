@@ -45,9 +45,11 @@ module.exports = function(Route) {
   Route.createTestData = function(newPlugin, cb){
 
     var pluginPkgInfo = require('../../cms_modules/'+newPlugin.name+'/package.json');
-    var route;
+    console.log('pluginPkgInfo["route"]', pluginPkgInfo["route"]);
+    if(pluginPkgInfo["route"] === undefined)
+      return cb();
 
-    route = new Route({
+    var route = new Route({
       name: pluginPkgInfo.route.name,
       title: pluginPkgInfo.route.title,
       path: pluginPkgInfo.route.path,
