@@ -18,29 +18,14 @@ before (done) ->
       plugin = new Plugin({url: "git@github.com:smlsunxie/cms-plugin-sample.git", name: "cms-plugin-sample"})
       Plugin.create plugin, (err, newPlugin) ->
 
-        return done(err, newPlugin) if process.env.NODE_ENV is "test"
-
-        try
-          Plugin.mount "cms-plugin-sample", () ->
-            return done(err, newPlugin)
-        catch
-          return done(err, newPlugin)
-
-    (newPlugin, done) ->
-
-      route = new Route(
-        name: "todo"
-        title: "todo"
-        path: "todo"
-        plugin: newPlugin
-      )
-
-      Route.create route, (err, newRoute) ->
-
         return done(err)
 
+    (done) ->
 
+      plugin = new Plugin({url: "https://github.com/smlsunxie/cms-plugin-routeList.git", name: "cms-plugin-routeList"})
+      Plugin.create plugin, (err, newPlugin) ->
 
+        return done(err)
 
   ], (error, result) ->
     done()

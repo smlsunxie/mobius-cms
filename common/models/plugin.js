@@ -84,29 +84,31 @@ module.exports = function(Plugin) {
       console.log("=== mountViews ====");
       var defer = $q.defer();
 
-      // buildClientBundle(process.env.NODE_ENV || "development", function(result) {
-      //   defer.resolve(result);
-      // })
 
-      var mainFiles = pluginPkgInfo.main
+      Plugin.find({}, function(error, plugins){
 
+        var bundleFiles = []
 
-      var bundleFiles = mainFiles.map(function (file) {
-        return "./cms_modules/" + moduleName + "/" + file
-      })
+        plugins.forEach(function(plugin) {
+          console.log("plugin", plugin);
 
-      fse.ensureDir("../../cms_modules/" + moduleName, function(err) {
-        if(err){
-          console.log("error", err);
-          return defer.resolve();
-        }
+          var pluginInfo = require('../../cms_modules/'+plugin.name+'/package.json');
+          var mainFiles = pluginInfo.main
 
+          mainFiles.forEach(function (file) {
+            bundleFiles.push("./cms_modules/" + plugin.name + "/" + file)
+          })
 
-        buildViewModules(bundleFiles,function(){
+        })
+
+        console.log("bundleFiles", bundleFiles);
+
+        buildViewModules(bundleFiles, function(){
           return defer.resolve();
         });
-      });
 
+
+      })
 
       return defer.promise;
     }

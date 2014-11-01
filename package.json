@@ -12,6 +12,7 @@
     "test": "test"
   },
   "scripts": {
+    "start": "coffee server/server.coffee",
     "test": "grunt test",
     "build": "bower install; grunt build"
   },
