@@ -16,7 +16,7 @@ module.exports = React.createClass(
 
     <div>
       <header>
-        <ul>
+        <ul className="nav nav-pills">
           <li><Link to="app">Dashboard</Link></li>
 
           {@state.routes.map(createUl)}
